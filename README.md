@@ -1,5 +1,5 @@
 # Association-of-Brain-Function-and-Structure-with-Neuropsychological-Measures
-Used R to explore whether Diffusion Tensor Imaging (DTI) biomarkers (FA, MD) relate to cognitive function (TOVA) in Hurler syndrome. Significant group differences in FA/MD values were found, but no differential impact on TOVA d-prime by group. The analysis involved t-tests, regression models, and interaction terms.
+Used R to explore whether Diffusion Tensor Imaging (DTI) biomarkers (Fractional Anisotropy (FA), Mean Diffusivity (MD)) relate to cognitive function `Test of Variables of Attention (TOVA)` in Hurler syndrome. Significant group differences in FA/MD values were found, but no differential impact on TOVA d-prime by group. The analysis involved t-tests, regression models, and interaction terms.
 
 ## Statistical Analysis Plan (SAP)
 **NOTE:** Only the Statistical Analysis Plan (SAP) and the code used for the data analysis are posted on this repository. The Statistical Analysis Report and the dataset used will not be posted.
