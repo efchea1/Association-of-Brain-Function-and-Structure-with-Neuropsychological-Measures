@@ -1,0 +1,198 @@
+---
+title: 'Case Study 4: Association of Brain Function and Structure with Neuropsychological
+  Measures'
+author: "Emmanuel Fle Chea"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r, message=FALSE, warning=FALSE}
+# Load needed libraries
+library(dplyr)
+library(tidyverse)    
+library(readr)        
+library(broom)
+library(knitr)
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+dti_data <- read.csv("C:/Users/emman/OneDrive/Desktop/MPH Data Science - UMN/Biostatistical Consulting/Case_Study4/DTI data.csv", stringsAsFactors = FALSE)
+
+# Inspect the structure and summary of the dataset
+str(dti_data)
+view(dti_data)
+colnames(dti_data)
+```
+
+```{r}
+# Check the raw values and data type
+str(dti_data$Group)
+```
+
+
+```{r}
+# 2. Check raw Group data
+str(dti_data$Group)
+unique(dti_data$Group)
+```
+
+
+
+```{r}
+# (3) Convert the numeric 1 and 2 into factor levels
+dti_data$Group <- factor(
+  dti_data$Group,
+  levels = c(1, 2),          # matches the raw numeric data
+  labels = c("attenuated",   # label for '1'
+             "severe")       # label for '2'
+)
+```
+
+
+```{r}
+# (4) Verify the result
+str(dti_data$Group)
+unique(dti_data$Group)
+table(dti_data$Group)
+```
+
+
+
+
+
+```{r}
+# Descriptive Statistics and Group Comparisons
+descriptives_state <- dti_data %>%
+  group_by(Group) %>%
+  summarise(
+    FA_mean   = mean(FA, na.rm = TRUE),
+    FA_sd     = sd(FA, na.rm = TRUE),
+    MD_mean   = mean(MD, na.rm = TRUE),
+    MD_sd     = sd(MD, na.rm = TRUE),
+    TOVAd_mean = mean(TOVAd, na.rm = TRUE),   # <--- use TOVAd for d-prime
+    TOVAd_sd   = sd(TOVAd, na.rm = TRUE),      # <--- use TOVAd for d-prime
+    TOVAOm_mean = mean(TOVAOm, na.rm = TRUE),
+    TOVAOm_sd = sd(TOVAOm, na.rm = TRUE),
+    TOVACom_mean = mean(TOVACom, na.rm = TRUE),
+    TOVACom_sd = sd(TOVACom, na.rm = TRUE),
+    TOVART_mean = mean(TOVART, na.rm = TRUE),
+    TOVART_sd = sd(TOVART, na.rm = TRUE),
+    TovaVAR_mean = mean(TovaVAR, na.rm = TRUE),
+    TovaVAR_sd = sd(TovaVAR, na.rm = TRUE)
+  )
+
+kable(descriptives_state)
+```
+
+
+```{r}
+# Compare groups on DTI measures using t-tests
+t_test_FA  <- t.test(FA ~ Group, data = dti_data)
+t_test_MD  <- t.test(MD ~ Group, data = dti_data)
+
+cat("T-test for FA by Group\n")
+print(t_test_FA)
+
+cat("\nT-test for MD by Group\n")
+print(t_test_MD)
+```
+# Correlation Analysis within Groups
+
+```{r}
+# Filter the data for each group
+severe_data <- filter(dti_data, Group == "severe")
+attenuated_data <- filter(dti_data, Group == "attenuated")
+```
+
+
+```{r}
+# Calculate correlation matrix for severe group (for FA, MD, and TOVAd)
+cor_severe <- cor(severe_data[c("FA", "MD", "TOVAd")], use = "complete.obs")
+
+# Calculate correlation matrix for attenuated group (for FA, MD, and TOVAd)
+cor_attenuated <- cor(attenuated_data[c("FA", "MD", "TOVAd")], use = "complete.obs")
+
+# Print the correlation matrices
+cat("Correlation Matrix for Severe Group:\n")
+print(cor_severe)
+cat("\nCorrelation Matrix for Attenuated Group:\n")
+print(cor_attenuated)
+```
+
+```{r}
+#------------------------------
+# Regression Models to Explore Association and Interactions
+#------------------------------
+# The study hypothesis suggests that the associations between TOVA measures and DTI measures (FA and MD)
+# might differ between groups. One way to test this is to include an interaction term in regression models.
+# We will demonstrate with the TOVA d-prime measure.
+#
+# Model 1: TOVA_dprime predicted by FA, Group, and their interaction.
+model_FA <- lm(TOVAd ~ FA * Group, data = dti_data)
+summary(model_FA)
+
+# Model 2: TOVA_dprime predicted by MD, Group, and their interaction.
+model_MD <- lm(TOVAd ~ MD * Group, data = dti_data)
+summary(model_MD)
+
+# If you want to adjust for both DTI measures simultaneously:
+model_both <- lm(TOVAd ~ FA * Group + MD * Group, data = dti_data)
+summary(model_both)
+
+#------------------------------
+# Loop Over TOVA Measures
+#------------------------------
+# Correct the variable names to match those in your dataset:
+tova_measures <- c("TOVAd", "TOVAOm", "TOVACom", "TOVART", "TovaVAR")
+
+# Loop: For each TOVA measure, predict it from FA, MD, Group, and their interactions.
+results_list <- list()
+for (measure in tova_measures) {
+  # Build the regression formula dynamically: Outcome ~ FA * Group + MD * Group
+  formula_str <- paste(measure, "~ FA * Group + MD * Group")
+  model <- lm(as.formula(formula_str), data = dti_data)
+  results_list[[measure]] <- summary(model)
+  
+  cat("\n---------------------------------------------------\n")
+  cat("Regression results for", measure, ":\n")
+  print(summary(model))
+}
+
+# (Optional: Use broom package to tidy up results if further reporting or table output is needed)
+tidy_model_FA <- broom::tidy(model_FA)
+kable(tidy_model_FA)
+```
+
+```{r}
+#------------------------------
+# Section 5. Visualization of Key Relationships
+#------------------------------
+# Visualize the relationship between FA and TOVAd by Group.
+library(ggplot2)
+ggplot(dti_data, aes(x = FA, y = TOVAd, color = Group)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_minimal() +
+  labs(title = "Association between FA and TOVAd by Group",
+       x = "Fractional Anisotropy (FA)",
+       y = "TOVAd")
+
+# Similarly, visualize the relationship between MD and TOVAd.
+ggplot(dti_data, aes(x = MD, y = TOVAd, color = Group)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_minimal() +
+  labs(title = "Association between MD and TOVAd by Group",
+       x = "Mean Diffusivity (MD)",
+       y = "TOVAd")
+```
+
+
+
+
+
+
+
+
+
