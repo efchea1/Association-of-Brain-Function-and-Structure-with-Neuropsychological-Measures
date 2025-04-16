@@ -16,7 +16,6 @@ The dataset titled DTI data.csv includes demographic, clinical, imaging, and neu
 Neuropsychological functioning is assessed using multiple standardized instruments. These include Full Scale IQ (FSIQ), memory (California Verbal Learning Test, CVLT), and spatial ability (Judgment of Line Orientation, JLO). Attention is evaluated using five components of the TOVA: d-prime (TOVAd), omission errors (TOVAOm), commission errors (TOVACom), reaction time (TOVART), and variability (TovaVAR). Imaging variables include FA and MD, both derived from DTI scans and representing markers of white matter microstructure.
 
 **Data Preparation:**
-
 Prior to analysis, several transformations were applied to prepare the dataset. The Group variable was recoded as a factor with two levels: “attenuated” (coded as 1) and “severe” (coded as 2). Age in months was converted to years for interpretability. The MedRisk variable was recoded into a binary indicator (MedRiskBinary), where a value of 1 denotes the presence of one or more medical risk factors. Descriptive statistics for all major variables were then stratified by group to facilitate group-wise comparisons.
 
 ## EXPLORATORY DATA ANALYSIS (EDA)
