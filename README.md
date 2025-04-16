@@ -24,12 +24,15 @@ Descriptive statistics for key demographic, clinical, imaging, and cognitive var
 
 ## METHOD
 **Primary Analyses:**
+
 To evaluate the relationship between imaging biomarkers and attention performance, three linear regression models were fitted. These models aimed to determine whether group status (attenuated vs. severe) modifies the effect of FA and MD on 
 
 **TOVA d-prime scores:**
 
 **Model 1:** TOVAd predicted by FA, group, and FA × group interaction.
+
 **Model 2:** TOVAd predicted by MD, group, and MD × group interaction.
+
 **Model 3:** TOVAd predicted by both FA and MD, group, and all corresponding interaction terms.
 
 All models were fitted using complete cases. Interaction terms were included to assess potential effect modification by patient group. Model assumptions were validated using standard diagnostic plots, including residuals versus fitted values, Q-Q plots for residual normality, and leverage plots to detect influential data points. These diagnostics revealed no substantial violations, although minor deviations in normality and variance were observed.
