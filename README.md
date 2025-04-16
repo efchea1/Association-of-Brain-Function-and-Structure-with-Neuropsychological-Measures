@@ -23,7 +23,7 @@ Prior to analysis, several transformations were applied to prepare the dataset. 
 Descriptive statistics for key demographic, clinical, imaging, and cognitive variables are presented in Table 1. Group comparisons of FA and MD values were conducted using two-sample t-tests, with statistical significance set at p < 0.05. To assess the relationship between imaging measures and cognitive performance, Pearson correlation matrices were calculated separately for each group using the variables FA, MD, and TOVAd. To support interpretation, scatterplots were generated for the FA–TOVAd and MD–TOVAd associations, stratified by patient group.
 
 ## METHOD
-**Primary Analysis:**
+**Primary Analyses:**
 To evaluate the relationship between imaging biomarkers and attention performance, three linear regression models were fitted. These models aimed to determine whether group status (attenuated vs. severe) modifies the effect of FA and MD on 
 
 **TOVA d-prime scores:**
