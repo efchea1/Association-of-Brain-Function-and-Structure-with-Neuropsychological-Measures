@@ -58,3 +58,9 @@ In addition to TOVAd, the multivariable regression models were extended to the f
 
 This analysis provides evidence that white matter integrity, as measured by FA and MD, is significantly associated with neuropsychological performance in children with Hurler syndrome. The nature of these associations differs by patient group, suggesting that clinical phenotype and treatment modality may moderate the impact of white matter structure on cognitive function. Diagnostic checks and sensitivity analyses support the reliability of these findings. Among the imaging markers, FA emerged as a stronger predictor of attention-related performance, particularly within the severe group. These results underscore the value of DTI biomarkers in understanding neurodevelopmental outcomes in rare genetic disorders.
 
+## 📄 License
+
+This project is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
+
+© 2025 Emmanuel Fle Chea. See the LICENSE file for full terms and usage guidelines.
+
